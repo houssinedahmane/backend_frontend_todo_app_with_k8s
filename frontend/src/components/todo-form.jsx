@@ -4,7 +4,6 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 const TodoForm = ({ saveTodo }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
 
   const onTitleChange = (e) => {
     setTitle(e.target.value);
@@ -14,12 +13,9 @@ const TodoForm = ({ saveTodo }) => {
     setDescription(e.target.value);
   };
 
-  const onDueDateChange = (e) => {
-    setDueDate(e.target.value);
-  };
 
   const onSubmit = () => {
-    saveTodo({ title, description, due_date: dueDate });
+    saveTodo({ title, description });
   };
 
   return (
@@ -46,16 +42,7 @@ const TodoForm = ({ saveTodo }) => {
           onChange={onDescriptionChange}
         />
       </FormGroup>
-      <FormGroup>
-        <Label for="duedate">Due Date</Label>
-        <Input
-          id="duedate"
-          name="duedate"
-          type="date"
-          value={dueDate}
-          onChange={onDueDateChange}
-        />
-      </FormGroup>
+
       <Button color="primary" onClick={onSubmit}>Save</Button>
     </Form>
   );

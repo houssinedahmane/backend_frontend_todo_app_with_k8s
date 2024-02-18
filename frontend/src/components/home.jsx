@@ -37,7 +37,6 @@ const Home = () => {
   const handleClick = async (id) => {
     try {
       await axios.patch(`${API_URL}/todos/${id}`, {
-        is_complete: true,
       });
       await getTodos();
     } catch (err) {
@@ -76,11 +75,9 @@ const Home = () => {
                         type="checkbox"
                         onChange={() => handleClick(todo._id)}
                         value="foobar"
-                        defaultChecked={todo.is_complete}
                       />
                     </div>
                     <h5>{todo.title}</h5>
-                    <small>Due: {todo.due_date}</small>
                   </div>
                   <p className="mb-1">{todo.description}</p>
                 </ListGroupItem>

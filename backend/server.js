@@ -1,16 +1,17 @@
 const express = require("express");
 const cors = require('cors');
-const mongoose = require("mongoose");
 const port = 3001;
 const routes = require("./routes");
+const sequelize = require('./models/todo');
+
 
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://mongo:27017/todos", {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  });
+ // await mongoose.connect("mongodb://mongo:27017/todos", {
+   // useUnifiedTopology: true,
+    // useNewUrlParser: true,
+  //});
   
   const app = express();
   app.use(cors());

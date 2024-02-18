@@ -1,22 +1,30 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/config');
 
-const Schema = mongoose.Schema;
-
-let Todo = new Schema({
+const Todo = sequelize.define('todos', {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     title: {
-        type: String
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     description: {
-        type: String
-    },
-    is_complete: {
-        type: Boolean
-    },
-    due_date: {
-        type: Date
+        type: DataTypes.TEXT,
+        allowNull: false,
     }
+}, {
+    timestamps: false, // Disable createdAt and updatedAt fields
 });
 
-db.createUser({user: "username", pwd: "password", roles: ["readWrite", "dbAdmin"]});
+// Sync the database
+Todo.sync().then(() => {
+  console.log("Todo Model synced");
+}).catch((error) => {
+  console.error('Error syncing Todo model:', error);
+});
 
-module.exports = mongoose.model('Todo', Todo);
+module.exports = Todo;

@@ -5,9 +5,15 @@ const Todo = require("../models/todo");
 
 // GET all todos
 router.get("/", async (req, res) => {
-  const todos = await Todo.find({ is_complete: false });
-  res.send(todos);
+  try {
+    const todos = await Todo.findAll();
+    res.send(todos);
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
 });
+
 
 // GET todo based on ID
 router.get("/:id", async (req, res) => {
@@ -17,15 +23,18 @@ router.get("/:id", async (req, res) => {
 
 // POST create new todo
 router.post("/", async (req, res) => {
-  console.log(req.body);
-  const todo = new Todo({
-    title: req.body.title,
-    description: req.body.description,
-    is_complete: req.body.is_complete || false,
-    due_date: req.body.due_date || new Date(),
-  });
-  await todo.save();
-  res.send(todo);
+  try {
+      console.log(req.body);
+      const todo = new Todo({
+          title: req.body.title,
+          description: req.body.description
+      });
+      await todo.save();
+      res.send(todo);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 // UPDATE todo
@@ -38,12 +47,6 @@ router.patch("/:id", async (req, res) => {
     }
     if (req.body.description) {
       todo.description = req.body.description;
-    }
-    if (req.body.is_complete) {
-      todo.is_complete = req.body.is_complete;
-    }
-    if (req.body.due_date) {
-      todo.due_date = req.body.due_date;
     }
     await todo.save();
     res.send(todo);
